@@ -1,0 +1,15 @@
+/yt-client/node_modules/*
+/yt-client/dist/*
+/yt-client/yarn.lock
+/yt-client/.vscode/*
+/yt-client/.idea
+/yt-client/.DS_Store
+
+/yt-server/node_modules/*
+/yt-server/dist/*
+/yt-server/yarn.lock
+/yt-server/.vscode/*
+/yt-server/.idea
+/yt-server/.DS_Store
+
+.DS_Store
