@@ -1,31 +1,10 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
-import { VideosApi } from './modules/video/infrastructure/videos-api';
 
-const videosApi = new VideosApi()
-
-const typeDefs = `
-  type Video {
-    uid: String
-    id: String
-    url: String
-    thumbnail: String
-  }
-
-  type Query {
-    getVideos: [Video]
-  }
-`;
-
-const resolvers = {
-    Query: {
-      getVideos: () => videosApi.fetch(),
-    },
-};
+import { schema } from './schema/schema';
 
 const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+    schema,
 });
 
 const { url } = await startStandaloneServer(server, {

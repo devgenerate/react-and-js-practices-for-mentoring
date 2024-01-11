@@ -1,41 +1,105 @@
-import { gql, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 
 import { Skeleton } from "@/components/ui/skeleton"
-import { ImagesPreview } from "@/components/images-preview";
+import { Button } from "@/components/ui/button"
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow,
+  } from "@/components/ui/table"
+import { Input } from "@/components/ui/input"
 
-import { GetVideosData } from "@/modules/video/domain/video-gql";
-
-
-const getVideosQuery = gql`
-    query getVideos {
-        getVideos {
-            uid
-            id
-            url
-            thumbnail
-        }
-    }
-`
+import { getUsers } from "@/queries/user.queries";
+import { GQLUserListData } from "@/modules/user/domain/user";
+import { updateUsername } from "@/mutations/user.mutations";
+import { useState } from "react";
 
 function HomePage() {
-    const { data, error, loading } = useQuery<GetVideosData>(getVideosQuery, {
+    const [newName, setNewName] = useState<Map<number, string>>(new Map())
+
+    const { data, loading, refetch } = useQuery<GQLUserListData>(getUsers, {
         fetchPolicy: 'network-only'
     })
+
+    const [onUpdateUsername] = useMutation(updateUsername);
+
+    const onHandleUpdateUsername = (id: number) => async ()  => {
+        await onUpdateUsername({
+            variables: { id, name: newName.get(id) },
+            onCompleted: () => {
+                setNewName(new Map())
+                refetch();
+            }
+        });
+    }
+
+    const onHandleUpdateNewNameState = (id: number, name: string) => {
+        const newMap = structuredClone(newName)
+        newMap.set(id, name)
+        setNewName(newMap);
+    }
 
     return (
         <main className="page flex justify-center items-center">
             { loading && (
-                <section className="flex flex-wrap gap-5">
+                <section className="flex-column">
                     {
                         new Array(3).fill(null).map((_, index) => (
-                            <Skeleton className="h-[242px] w-[362px]" key={`skeleton-images-${index}`} />
+                            <Skeleton className="h-[30px] w-[362px] mb-10" key={`skeleton-user-${index}`} />
                         ))
                     }
                 </section>
             ) }
-            <section className="flex justify-center">
+            <section className="flex justify-center max-h-[90%]">
                 {
-                    !loading && !error && data && <ImagesPreview images={data.getVideos.map(v => v.thumbnail)} />
+                    !loading && !!data && (
+                        <Table>
+                            <TableCaption>A list of your recent invoices.</TableCaption>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead className="w-[100px]">Name</TableHead>
+                                    <TableHead>Website</TableHead>
+                                    <TableHead>Email</TableHead>
+                                    <TableHead />
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {data?.Users.map((user) => (
+                                    <TableRow key={user.id}>
+                                        <TableCell className="font-medium">{user.name}</TableCell>
+                                        <TableCell>{user.website}</TableCell>
+                                        <TableCell>{user.email}</TableCell>
+                                        <TableCell className="text-right">
+                                            <Button
+                                                variant="outline"
+                                                disabled={!newName}
+                                                onClick={onHandleUpdateUsername(user.id)}
+                                            >
+                                                Update
+                                            </Button>
+                                            <Input
+                                                type="text"
+                                                placeholder="New name"
+                                                onChange={(event) => onHandleUpdateNewNameState(user.id, event.target.value)}
+                                                value={newName.get(user.id) || ''}
+                                            />
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                            <TableFooter>
+                                <TableRow>
+                                <TableCell colSpan={3}>Total</TableCell>
+                                <TableCell className="text-right">{data?.Users.length}</TableCell>
+                                </TableRow>
+                            </TableFooter>
+                        </Table>
+                    )
                 }
             </section>
         </main>
