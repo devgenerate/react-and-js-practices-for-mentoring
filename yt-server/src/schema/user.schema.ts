@@ -46,14 +46,6 @@ export const UserType = new GraphQLObjectType<User>({
     }
 })
 
-export const UpdateUserNameArgsType = new GraphQLInputObjectType({
-    name: 'UpdateUserNameArgsType',
-    fields: {
-        id: { type: GraphQLInt },
-        name: { type: GraphQLString }
-    }
-})
-
 export async function getUsersResolver() {
     return userApi.getUsers();
 }

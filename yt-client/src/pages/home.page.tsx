@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 
 import { Skeleton } from "@/components/ui/skeleton"
@@ -17,7 +18,6 @@ import { Input } from "@/components/ui/input"
 import { getUsers } from "@/queries/user.queries";
 import { GQLUserListData } from "@/modules/user/domain/user";
 import { updateUsername } from "@/mutations/user.mutations";
-import { useState } from "react";
 
 function HomePage() {
     const [newName, setNewName] = useState<Map<number, string>>(new Map())
@@ -77,7 +77,7 @@ function HomePage() {
                                         <TableCell className="text-right">
                                             <Button
                                                 variant="outline"
-                                                disabled={!newName}
+                                                disabled={!newName.get(user.id)}
                                                 onClick={onHandleUpdateUsername(user.id)}
                                             >
                                                 Update
