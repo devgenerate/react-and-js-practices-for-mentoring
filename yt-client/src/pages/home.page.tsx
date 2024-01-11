@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 
 import { Skeleton } from "@/components/ui/skeleton"
-import { VideoPreview } from "@/components/video-preview";
+import { ImagesPreview } from "@/components/images-preview";
 
 import { GetVideosData } from "@/modules/video/domain/video-gql";
 
@@ -23,21 +23,19 @@ function HomePage() {
     })
 
     return (
-        <main className="page">
+        <main className="page flex justify-center items-center">
             { loading && (
-                <section className="flex flex-wrap items-center gap-5">
-                    <Skeleton className="h-60 w-60 rounded-full" />
-                    <Skeleton className="h-60 w-60 rounded-full" />
-                    <Skeleton className="h-60 w-60 rounded-full" />
-                    <Skeleton className="h-60 w-60 rounded-full" />
-                    <Skeleton className="h-60 w-60 rounded-full" />
+                <section className="flex flex-wrap gap-5">
+                    {
+                        new Array(3).fill(null).map((_, index) => (
+                            <Skeleton className="h-[242px] w-[362px]" key={`skeleton-images-${index}`} />
+                        ))
+                    }
                 </section>
             ) }
-            <section className="flex flex-wrap items-center gap-5">
+            <section className="flex justify-center">
                 {
-                    !loading && !error && data && data.getVideos.map((video, index) => (
-                        <VideoPreview videoItem={video} key={`${video.uid}-${index}`} />
-                    ))
+                    !loading && !error && data && <ImagesPreview images={data.getVideos.map(v => v.thumbnail)} />
                 }
             </section>
         </main>
