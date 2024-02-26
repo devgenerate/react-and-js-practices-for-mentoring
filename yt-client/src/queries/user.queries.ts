@@ -7,6 +7,9 @@ export const getUsers = gql`
             name
             email
             website
+            company {
+                name
+            }
         }
     }
 `
