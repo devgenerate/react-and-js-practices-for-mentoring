@@ -1,23 +1,20 @@
-import { useQuery } from "@apollo/client";
 import { Table } from "../table";
-
-import { GQLUserListData } from "@/modules/user/domain/user"
-import { getUsers } from "@/queries/user.queries"
 import UserBodyRow from "./user-body-row";
+import { useAppContext } from "@/hooks/useAppContext";
+import { useUserTable } from "./useUserTable";
 
 function UserTableBody() {
-    const { data, loading } = useQuery<GQLUserListData>(getUsers, {
-        fetchPolicy: 'network-only'
-    })
+    const { users } = useAppContext()
+    const { isLoading } = useUserTable()
 
     return (
         <Table.Body
             emptyMessage="Not users found"
-            isEmpty={!data && !loading}
-            isLoading={loading}
+            isEmpty={!users.length && !isLoading}
+            isLoading={isLoading}
         >
             {
-                (data || { Users: [] }).Users.map((user) => (
+                users.map((user) => (
                     <UserBodyRow key={user.id} user={user} />
                 ))
             }

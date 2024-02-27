@@ -1,18 +1,21 @@
+import { ChangeEvent } from "react";
 import { Input } from "@/components/ui/input"
 import { Table } from "../table";
 
-import { ChangeEvent, useState } from "react";
+import { User } from "@/modules/user/domain/user";
+import { useAppContext } from "@/hooks/useAppContext";
 
 type UserEmailCellProps = {
-    value: string
+    id: User['id']
+    email: User['email']
 }
 
 
-function UserEmailCell({ value }: UserEmailCellProps) {
-    const [email, setEmail] = useState(value)
+function UserEmailCell({ email, id }: UserEmailCellProps) {
+    const { onUpdateUserEmailById } = useAppContext()
 
     const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setEmail(event.target.value)
+        onUpdateUserEmailById(id, event.target.value)
     }
 
     return (

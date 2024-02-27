@@ -1,10 +1,13 @@
 import { Pages } from '@/pages'
 
 import './App.scss'
+import { AppContextProvider } from './context/app.context'
 
 function App() {
   return (
-    <Pages />
+    <AppContextProvider>
+      <Pages />
+    </AppContextProvider>
   )
 }
 

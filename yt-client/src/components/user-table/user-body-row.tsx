@@ -13,7 +13,7 @@ function UserBodyRow({ user }: UserBodyRowProps) {
             <Table.Cell className="font-medium">
                 {user.name}
             </Table.Cell>
-            <UserEmailCell value={user.email} />
+            <UserEmailCell id={user.id} email={user.email} />
             <Table.Cell>{user.website}</Table.Cell>
             <Table.Cell className="text-right">{user.company.name}</Table.Cell>
         </Table.Row>
