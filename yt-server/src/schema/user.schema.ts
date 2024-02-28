@@ -1,4 +1,4 @@
-import { GraphQLInputObjectType, GraphQLInt, GraphQLObjectType, GraphQLString } from "graphql";
+import { GraphQLInt, GraphQLObjectType, GraphQLString } from "graphql";
 import { User } from "../modules/user/domain/user";
 import { UserApi } from "../modules/user/infrastructure/user-api";
 
@@ -50,6 +50,3 @@ export async function getUsersResolver() {
     return userApi.getUsers();
 }
 
-export async function updateUsernameResolver(_: unknown, { id, name }: { id: number, name: string }) {
-    userApi.updateName(id, name)
-}

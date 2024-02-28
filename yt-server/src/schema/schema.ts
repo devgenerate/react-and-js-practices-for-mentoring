@@ -1,5 +1,5 @@
-import { GraphQLInt, GraphQLList, GraphQLObjectType, GraphQLSchema, GraphQLString } from "graphql";
-import { UserType, getUsersResolver, updateUsernameResolver } from "./user.schema";
+import { GraphQLList, GraphQLObjectType, GraphQLSchema} from "graphql";
+import { UserType, getUsersResolver } from "./user.schema";
 
 export const RootQuery = new GraphQLObjectType({
     name: 'RootQuery',
@@ -11,21 +11,6 @@ export const RootQuery = new GraphQLObjectType({
     }
 })
 
-export const RootMutation = new GraphQLObjectType({
-    name: 'RootMutation',
-    fields: {
-        UpdateUsername: {
-            args: {
-                id: { type: GraphQLInt },
-                name: { type: GraphQLString }
-            },
-            type: GraphQLString,
-            resolve: updateUsernameResolver
-        }
-    }
-})
-
 export const schema = new GraphQLSchema({
-    mutation: RootMutation,
     query: RootQuery
 })

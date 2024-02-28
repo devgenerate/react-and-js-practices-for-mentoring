@@ -1,12 +1,12 @@
 import { Table } from "../table";
-import UserTableBody from "./user-table-body";
-import UserTableHeader from "./user-table-header";
+import Body from "./body";
+import Header from "./header";
 
 function UserTable() {
     return (
         <Table>
-            <UserTableHeader />
-            <UserTableBody />
+            <Header />
+            <Body />
         </Table>
     );
 }

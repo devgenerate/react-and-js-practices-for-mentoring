@@ -19,17 +19,4 @@ export class UserApi implements UserRepository {
             })
         } catch (_) {}
     }
-
-    async updateName(id: number, name: string): Promise<void> {
-        try {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    const currentUser = this.users.get(id)!
-                    this.users.set(id, { ...currentUser, name })
-                    resolve(null)
-                }, 1500)
-            })
-        } catch (_) {
-        }
-    }
 }

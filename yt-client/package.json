@@ -21,6 +21,8 @@
     "embla-carousel-react": "^8.0.0-rc18",
     "graphql": "16.8.1",
     "lucide-react": "^0.303.0",
+    "mobx": "^6.12.0",
+    "mobx-react-lite": "^4.0.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "6.20.1",

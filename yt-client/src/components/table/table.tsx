@@ -1,13 +1,13 @@
+import { PropsWithChildren } from "react";
+
 import {
     Table as UiTable,
     TableHead,
     TableRow,
     TableCell,
 } from "@/components/ui/table"
-
-import Body from "./body"
 import Header from "./header";
-import { PropsWithChildren } from "react";
+import Body from "./body";
 
 type TableProps = PropsWithChildren
 

@@ -1,1 +1,1 @@
-export { default as UserTable } from './user-table'
+export { default as TserTable } from './user-table'

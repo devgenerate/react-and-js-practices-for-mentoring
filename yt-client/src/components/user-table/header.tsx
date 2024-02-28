@@ -1,6 +1,6 @@
 import { Table } from "../table";
 
-function UserTableHeader() {
+function Header() {
     return (
         <Table.Header>
             <Table.Head className="w-[100px]">Name</Table.Head>
@@ -11,4 +11,4 @@ function UserTableHeader() {
     );
 }
 
-export default UserTableHeader;
+export default Header;

@@ -3,16 +3,12 @@ import { TableBody, TableCell, TableRow } from "@/components/ui/table"
 import { ReloadIcon } from "@radix-ui/react-icons"
 
 type BodyProps = PropsWithChildren & {
-    isEmpty: boolean
     isLoading: boolean
-    emptyMessage: string
 }
 
 function Body(props: BodyProps) {
     const {
         children,
-        emptyMessage,
-        isEmpty,
         isLoading
     } = props
 
@@ -26,18 +22,6 @@ function Body(props: BodyProps) {
                 </TableRow>
             </TableBody>
         )
-    }
-
-    if (isEmpty) {
-        return (
-            <TableBody>
-                <TableRow>
-                    <TableCell align="center" colSpan={4}>
-                        <span>{emptyMessage}</span>
-                    </TableCell>
-                </TableRow>
-            </TableBody>
-        );
     }
 
     return (
