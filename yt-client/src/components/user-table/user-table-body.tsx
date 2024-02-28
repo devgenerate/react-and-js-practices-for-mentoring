@@ -1,14 +1,24 @@
-import { useQuery } from "@apollo/client";
+import { useQuery, useReactiveVar } from "@apollo/client";
 import { Table } from "../table";
 
 import { GQLUserListData } from "@/modules/user/domain/user"
 import { getUsers } from "@/queries/user.queries"
 import UserBodyRow from "./user-body-row";
+import { useEffect } from "react";
+import { usersVar } from "@/config/apollo.config";
 
 function UserTableBody() {
     const { data, loading } = useQuery<GQLUserListData>(getUsers, {
         fetchPolicy: 'network-only'
     })
+
+    const users = useReactiveVar(usersVar)
+
+    useEffect(() => {
+        if (data?.Users) {
+            usersVar(data.Users)
+        }
+    }, [data])
 
     return (
         <Table.Body
@@ -17,7 +27,7 @@ function UserTableBody() {
             isLoading={loading}
         >
             {
-                (data || { Users: [] }).Users.map((user) => (
+                users.map((user) => (
                     <UserBodyRow key={user.id} user={user} />
                 ))
             }

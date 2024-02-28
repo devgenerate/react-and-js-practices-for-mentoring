@@ -1,18 +1,27 @@
+import { ChangeEvent } from "react";
+import { useReactiveVar } from "@apollo/client";
+
 import { Input } from "@/components/ui/input"
 import { Table } from "../table";
-
-import { ChangeEvent, useState } from "react";
+import { usersVar } from "@/config/apollo.config";
 
 type UserEmailCellProps = {
-    value: string
+    email: string
+    id: number
 }
 
 
-function UserEmailCell({ value }: UserEmailCellProps) {
-    const [email, setEmail] = useState(value)
+function UserEmailCell({ email, id }: UserEmailCellProps) {
+    const users = useReactiveVar(usersVar)
 
     const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setEmail(event.target.value)
+        const currentUsers = structuredClone(users)
+        const userIndex = currentUsers.findIndex(user => user.id === id)
+        currentUsers[userIndex] = {
+            ...currentUsers[userIndex],
+            email: event.target.value
+        }
+        usersVar(currentUsers)
     }
 
     return (
